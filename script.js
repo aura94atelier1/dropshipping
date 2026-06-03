@@ -1,6 +1,6 @@
 // ============================================
 // MARA AURA - Premium Dropshipping Website
-// JavaScript Functionality
+// JavaScript Functionality - Enhanced Version
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -65,10 +65,10 @@ function setupFormHandling() {
             const email = this.querySelector('input[type="email"]').value;
             
             if (validateEmail(email)) {
-                showNotification('Thank you for subscribing! Check your email for exclusive offers.', 'success');
+                showNotification('🎉 Thank you for subscribing! Check your email for exclusive offers.', 'success');
                 this.reset();
             } else {
-                showNotification('Please enter a valid email address.', 'error');
+                showNotification('❌ Please enter a valid email address.', 'error');
             }
         });
     }
@@ -97,6 +97,7 @@ function showNotification(message, type = 'success') {
         animation: slideIn 0.3s ease;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         max-width: 90%;
+        font-weight: 600;
     `;
     
     document.body.appendChild(notification);
@@ -126,6 +127,17 @@ function setupMobileMenu() {
                 navLinks.classList.remove('active');
                 hamburger.classList.remove('active');
             });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = navLinks.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnHamburger && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
         });
     }
 }
@@ -243,15 +255,19 @@ function setupLazyLoading() {
 // ============================================
 class Analytics {
     static trackClick(element, category, action) {
-        console.log(`Click tracked: ${category} - ${action}`);
+        console.log(`📊 Click tracked: ${category} - ${action}`);
     }
 
     static trackPageView(pageName) {
-        console.log(`Page viewed: ${pageName}`);
+        console.log(`📄 Page viewed: ${pageName}`);
     }
 
     static trackConversion(type) {
-        console.log(`Conversion tracked: ${type}`);
+        console.log(`✅ Conversion tracked: ${type}`);
+    }
+
+    static trackAffiliateClick(storeName) {
+        console.log(`🛍️ Affiliate store clicked: ${storeName}`);
     }
 }
 
@@ -260,14 +276,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.store-link').forEach(link => {
         link.addEventListener('click', function(e) {
             const storeName = this.textContent;
-            Analytics.trackClick(this, 'store-link', `clicked-${storeName}`);
+            Analytics.trackAffiliateClick(storeName);
         });
     });
 
     document.querySelectorAll('.affiliate-card').forEach(card => {
         card.addEventListener('click', function(e) {
             const storeName = this.querySelector('h3').textContent;
-            Analytics.trackClick(this, 'affiliate-store', `clicked-${storeName}`);
+            Analytics.trackAffiliateClick(storeName);
         });
     });
 });
@@ -289,12 +305,24 @@ function debounce(func, wait) {
 
 // Resize handler with debounce
 window.addEventListener('resize', debounce(function() {
-    console.log('Window resized');
+    console.log('📐 Window resized');
 }, 250));
+
+// ============================================
+// PERFORMANCE MONITORING
+// ============================================
+window.addEventListener('load', function() {
+    if (performance && performance.timing) {
+        const pageLoadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+        console.log(`⚡ Page loaded in ${pageLoadTime}ms`);
+    }
+});
 
 // ============================================
 // CONSOLE GREETING
 // ============================================
 console.log('%c🎉 Welcome to MARA AURA! 🎉', 'font-size: 20px; color: #ff6b9d; font-weight: bold;');
 console.log('%cYour Premium Dropshipping Platform', 'font-size: 14px; color: #c44569;');
-console.log('%cWith 6 Affiliate Partners: Amazon, Temu, Jumia, AliExpress, Alibaba, Shein', 'font-size: 12px; color: #666;');
+console.log('%c6 Affiliate Partners:', 'font-size: 12px; color: #666; font-weight: bold;');
+console.log('%c🟠 Amazon | 🔴 Temu | 🔴 Jumia | 🟠 Alibaba | 🟠 AliExpress | ⚫ Shein', 'font-size: 12px; color: #666;');
+console.log('%c📱 Mobile-friendly | ⚡ Fast | 🔒 Secure', 'font-size: 11px; color: #999; font-style: italic;');
